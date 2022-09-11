@@ -1,2 +1,11 @@
 @2
 M=D
+// HOGE
+M=M+1
+D=D&M
+MD=D|A
+A=-A
+AM=!D
+AD=0
+AMD=-1;JEQ
+D;JGT
