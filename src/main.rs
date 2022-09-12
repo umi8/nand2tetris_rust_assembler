@@ -30,15 +30,13 @@ fn main() -> std::io::Result<()> {
 
                     let comp_mnemonic = caps.get(2).map_or("", |m| m.as_str());
                     let comp_code = comp_map(&comp_mnemonic);
-                    writeln!(&mut file, "{}", comp_code)?;
 
                     let dest_mnemonic = caps.get(1).map_or("", |m| m.as_str()).replace("=", "");
                     let dest_code = dest_map(&dest_mnemonic);
-                    writeln!(&mut file, "{}", dest_code)?;
 
                     let jump_mnemonic = caps.get(3).map_or("", |m| m.as_str()).replace(";", "");
                     let jump_code = jump_map(&jump_mnemonic);
-                    writeln!(&mut file, "{}", jump_code)?
+                    writeln!(&mut file, "{}{}{}{}", "111", comp_code, dest_code, jump_code)?
                 }
             };
         };
