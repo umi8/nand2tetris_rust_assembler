@@ -1,10 +1,10 @@
 use std::fs::File;
 use std::io::Write;
-
-use crate::parser::CommandType;
+use crate::command_type::CommandType;
 
 mod code;
 mod parser;
+mod command_type;
 
 fn main() -> std::io::Result<()> {
     let mut file = File::create("Prog.hack")?;

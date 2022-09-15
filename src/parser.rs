@@ -4,7 +4,7 @@ pub mod parser {
 
     use regex::Regex;
 
-    use crate::parser::CommandType;
+    use crate::CommandType;
 
     pub struct Parser {
         reader: BufReader<File>,
@@ -79,21 +79,6 @@ pub mod parser {
             let caps = re.captures(&self.command).unwrap();
             let jump_mnemonic = caps.get(3).map_or("", |m| m.as_str()).replace(";", "");
             jump_mnemonic
-        }
-    }
-}
-
-pub enum CommandType {
-    A,
-    C,
-}
-
-impl CommandType {
-    fn from(command: &String) -> CommandType {
-        return if command.starts_with("@") {
-            CommandType::A
-        } else {
-            CommandType::C
         }
     }
 }
