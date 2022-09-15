@@ -39,6 +39,9 @@ pub mod parser {
                         if buf.ends_with("\n") {
                             buf.pop();
                         }
+                        if buf.is_empty() {
+                            continue;
+                        }
                         self.command = buf;
                         true
                     }
