@@ -53,9 +53,7 @@ pub mod parser {
         }
 
         pub fn symbol(&self) -> String {
-            // @をとる
             let value = &self.command.replace("@", "");
-            // 10進数の数値に型変換する
             let num = value.parse::<i32>().unwrap();
             num.to_string()
         }
