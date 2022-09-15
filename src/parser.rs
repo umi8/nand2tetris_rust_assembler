@@ -33,16 +33,14 @@ pub mod parser {
                 return match &self.reader.read_line(&mut buf) {
                     Ok(0) => false,
                     Ok(_) => {
-                        if buf.starts_with("//") {
+                        let v = buf.trim();
+                        if v.starts_with("//") {
                             continue;
                         }
-                        if buf.ends_with("\n") {
-                            buf.pop();
-                        }
-                        if buf.is_empty() {
+                        if v.is_empty() {
                             continue;
                         }
-                        self.command = buf;
+                        self.command = v.to_string();
                         true
                     }
                     Err(_) => false
