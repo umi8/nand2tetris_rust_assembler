@@ -7,6 +7,7 @@ use crate::parser::Parser;
 mod code;
 mod parser;
 mod command_type;
+mod symbol_table;
 
 fn main() -> std::io::Result<()> {
     let mut file = File::create("Prog.hack")?;
