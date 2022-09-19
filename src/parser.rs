@@ -12,8 +12,8 @@ pub mod parser {
     }
 
     impl Parser {
-        pub fn new() -> Result<Self, &'static str> {
-            let asm = File::open("Prog.asm");
+        pub fn new(file_path: &str) -> Result<Self, &'static str> {
+            let asm = File::open(file_path);
 
             match asm {
                 Ok(file) => {

@@ -9,7 +9,7 @@ mod command_type;
 fn main() -> std::io::Result<()> {
     let mut file = File::create("Prog.hack")?;
 
-    let mut parser = match parser::parser::Parser::new() {
+    let mut parser = match parser::parser::Parser::new("Prog.asm") {
         Ok(parser) => parser,
         Err(why) => panic!("couldn't parse: {}", why)
     };
