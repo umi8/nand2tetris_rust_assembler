@@ -19,7 +19,7 @@ fn main() -> std::io::Result<()> {
     while parser.has_more_commands() {
         match parser.command_type() {
             CommandType::A => {
-                let num = parser.symbol().parse::<i32>().unwrap();
+                let num = parser.symbol().unwrap().parse::<i32>().unwrap();
                 writeln!(&mut file, "{:016b}", num)?
             }
             CommandType::C => {

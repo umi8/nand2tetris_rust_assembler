@@ -51,10 +51,18 @@ impl Parser {
         CommandType::from(&self.command)
     }
 
-    pub fn symbol(&self) -> String {
-        let value = &self.command.replace("@", "");
-        let num = value.parse::<i32>().unwrap();
-        num.to_string()
+    pub fn symbol(&self) -> Result<String, &'static str> {
+        return match self.command_type() {
+            CommandType::A => {
+                Ok(self.command.replace("@", ""))
+            }
+            CommandType::C => {
+                Err("This function doesn't support type C.")
+            }
+            CommandType::L => {
+                Ok(self.command.replace("(", "").replace(")", ""))
+            }
+        };
     }
 
     pub fn dest(&self) -> String {
