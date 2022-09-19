@@ -28,6 +28,7 @@ fn main() -> std::io::Result<()> {
                 let jump_code = code::jump(&parser.jump()).to_string();
                 writeln!(&mut file, "{}{}{}{}", "111", comp_code, dest_code, jump_code)?
             }
+            CommandType::L => {}
         }
     }
     Ok(())
