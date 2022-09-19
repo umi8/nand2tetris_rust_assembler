@@ -1,6 +1,8 @@
 use std::fs::File;
 use std::io::Write;
+
 use crate::command_type::CommandType;
+use crate::parser::Parser;
 
 mod code;
 mod parser;
@@ -9,7 +11,7 @@ mod command_type;
 fn main() -> std::io::Result<()> {
     let mut file = File::create("Prog.hack")?;
 
-    let mut parser = match parser::parser::Parser::new("Prog.asm") {
+    let mut parser = match Parser::new("Prog.asm") {
         Ok(parser) => parser,
         Err(why) => panic!("couldn't parse: {}", why)
     };
