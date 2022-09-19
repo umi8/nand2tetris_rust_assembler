@@ -3,6 +3,7 @@ use std::io::Write;
 
 use crate::command_type::CommandType;
 use crate::parser::Parser;
+use crate::symbol_table::SymbolTable;
 
 mod code;
 mod parser;
@@ -11,11 +12,25 @@ mod symbol_table;
 
 fn main() -> std::io::Result<()> {
     let mut file = File::create("Prog.hack")?;
+    let mut symbol_table = SymbolTable::new();
 
     let mut parser = match Parser::new("Prog.asm") {
         Ok(parser) => parser,
         Err(why) => panic!("couldn't parse: {}", why)
     };
+
+    let mut address = 0;
+    while parser.has_more_commands() {
+        match parser.command_type() {
+            CommandType::A => { address += 1 }
+            CommandType::C => { address += 1 }
+            CommandType::L => {
+                let label = parser.symbol().unwrap();
+                symbol_table.add_entry(label, address + 1)
+            }
+        }
+    }
+    parser.reset_cursor();
 
     while parser.has_more_commands() {
         match parser.command_type() {
