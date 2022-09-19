@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader, Seek, SeekFrom};
 
 use regex::Regex;
 
@@ -84,5 +84,9 @@ impl Parser {
         let caps = re.captures(&self.command).unwrap();
         let jump_mnemonic = caps.get(3).map_or("", |m| m.as_str()).replace(";", "");
         jump_mnemonic
+    }
+
+    pub fn reset_cursor(&mut self) -> u64 {
+        self.reader.seek(SeekFrom::Start(0)).unwrap()
     }
 }
