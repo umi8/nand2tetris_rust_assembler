@@ -43,12 +43,12 @@ impl SymbolTable {
         }
     }
 
-    pub fn contains(&self, symbol: String) -> bool {
-        self.table.contains_key(&symbol)
+    pub fn contains(&self, symbol: &str) -> bool {
+        self.table.contains_key(symbol)
     }
 
-    pub fn get_address(&self, symbol: String) -> Result<i32, &'static str> {
-        return match self.table.get(&symbol) {
+    pub fn get_address(&self, symbol: &str) -> Result<i32, &'static str> {
+        return match self.table.get(symbol) {
             None => Err("Symbol doesn't exist."),
             Some(address) => Ok(*address)
         }

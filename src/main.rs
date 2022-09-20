@@ -19,23 +19,37 @@ fn main() -> std::io::Result<()> {
         Err(why) => panic!("couldn't parse: {}", why)
     };
 
-    let mut address = 0;
+    let mut constant_address = 0;
     while parser.has_more_commands() {
         match parser.command_type() {
-            CommandType::A => { address += 1 }
-            CommandType::C => { address += 1 }
+            CommandType::A => { constant_address += 1 }
+            CommandType::C => { constant_address += 1 }
             CommandType::L => {
                 let label = parser.symbol().unwrap();
-                symbol_table.add_entry(label, address + 1)
+                symbol_table.add_entry(label, constant_address + 1)
             }
         }
     }
     parser.reset_cursor();
 
+    let mut variable_address = 16;
     while parser.has_more_commands() {
         match parser.command_type() {
             CommandType::A => {
-                let num = parser.symbol().unwrap().parse::<i32>().unwrap();
+                let symbol = parser.symbol().unwrap();
+                let num = match symbol.parse::<i32>() {
+                    Ok(num) => num,
+                    Err(_) => {
+                        if symbol_table.contains(&symbol) {
+                            symbol_table.get_address(&symbol).unwrap()
+                        } else {
+                            symbol_table.add_entry(symbol, variable_address);
+                            let current_address = variable_address;
+                            variable_address += 1;
+                            current_address
+                        }
+                    }
+                };
                 writeln!(&mut file, "{:016b}", num)?
             }
             CommandType::C => {
