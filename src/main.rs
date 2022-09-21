@@ -26,7 +26,7 @@ fn main() -> std::io::Result<()> {
             CommandType::C => { constant_address += 1 }
             CommandType::L => {
                 let label = parser.symbol().unwrap();
-                symbol_table.add_entry(label, constant_address + 1)
+                symbol_table.add_entry(label, constant_address)
             }
         }
     }
