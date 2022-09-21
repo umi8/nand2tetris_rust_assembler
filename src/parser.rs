@@ -32,14 +32,13 @@ impl Parser {
             return match &self.reader.read_line(&mut buf) {
                 Ok(0) => false,
                 Ok(_) => {
-                    let v = buf.trim();
-                    if v.starts_with("//") {
+                    let re = Regex::new(r"//.*").unwrap();
+                    let comments_removed = re.replace_all(&buf, "");
+                    let command = &comments_removed.trim();
+                    if command.is_empty() {
                         continue;
                     }
-                    if v.is_empty() {
-                        continue;
-                    }
-                    self.command = v.to_string();
+                    self.command = command.parse().unwrap();
                     true
                 }
                 Err(_) => false
