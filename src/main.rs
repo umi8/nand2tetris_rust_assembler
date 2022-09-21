@@ -23,15 +23,13 @@ struct Args {
 }
 
 fn main() -> std::io::Result<()> {
-    let mut file = File::create("Prog.hack")?;
-    let mut symbol_table = SymbolTable::new();
-
     let args = Args::parse();
     let mut parser = match AssemblerParser::new(&args.target) {
         Ok(parser) => parser,
         Err(why) => panic!("couldn't parse: {}", why)
     };
 
+    let mut symbol_table = SymbolTable::new();
     let mut constant_address = 0;
     while parser.has_more_commands() {
         match parser.command_type() {
@@ -45,6 +43,7 @@ fn main() -> std::io::Result<()> {
     }
     parser.reset_cursor();
 
+    let mut file = File::create("Prog.hack")?;
     let mut variable_address = 16;
     while parser.has_more_commands() {
         match parser.command_type() {
@@ -74,6 +73,7 @@ fn main() -> std::io::Result<()> {
             CommandType::L => {}
         }
     }
+
     println!("File compilation succeeded: Prog.hack");
     Ok(())
 }
