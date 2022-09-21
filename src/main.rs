@@ -1,8 +1,10 @@
 use std::fs::File;
 use std::io::Write;
 
+use clap::Parser;
+
 use crate::command_type::CommandType;
-use crate::parser::Parser;
+use crate::parser::Parser as AssemblerParser;
 use crate::symbol_table::SymbolTable;
 
 mod code;
@@ -10,11 +12,22 @@ mod parser;
 mod command_type;
 mod symbol_table;
 
+#[derive(Parser, Debug)]
+#[clap(
+name = "Hack Assembler",
+version = "v1.0.0",
+)]
+struct Args {
+    /// Assembler Target File
+    target: String,
+}
+
 fn main() -> std::io::Result<()> {
     let mut file = File::create("Prog.hack")?;
     let mut symbol_table = SymbolTable::new();
 
-    let mut parser = match Parser::new("Prog.asm") {
+    let args = Args::parse();
+    let mut parser = match AssemblerParser::new(&args.target) {
         Ok(parser) => parser,
         Err(why) => panic!("couldn't parse: {}", why)
     };
@@ -61,5 +74,6 @@ fn main() -> std::io::Result<()> {
             CommandType::L => {}
         }
     }
+    println!("File compilation succeeded: Prog.hack");
     Ok(())
 }
